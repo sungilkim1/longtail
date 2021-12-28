@@ -5,8 +5,8 @@
   - service app: flask/python
  
 # 샘플 구성
-  kafka producer(flask/python) - kafka - logstash - elasticsearch - kibana
-    . 4 kafka topics(es index): order, dispatch, delivery, charge
+  - kafka producer(flask/python) - kafka - logstash - elasticsearch - kibana
+  - 4 kafka topics(es index): order, dispatch, delivery, charge
     
 # 설치 방법
 1. CRC 설치/설정/로그인: 
@@ -18,20 +18,8 @@
    - oc login -u kubeadmin(or developer)
    - web console 접속
  
- └───longtail
-    ├───longtail-elk
-    ├───longtail-kafka
-    │   └───install
-    │       ├───cluster-operator
-    │       ├───drain-cleaner
-    │       │   ├───certmanager
-    │       │   ├───kubernetes
-    │       │   │   └───webhook-certificates
-    │       │   └───openshift
-    │       ├───strimzi-admin
-    │       ├───topic-operator
-    │       └───user-operator
-    └───longtail-producer
+![image](https://user-images.githubusercontent.com/80303046/147523438-d2e68776-9613-4c42-a096-cd03352116da.png)
+
  
  2. kafka producer 설치
    - $longtail-producer로 이동
@@ -51,8 +39,8 @@
     - kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n my-kafka-project
     - kubectl create -f .\kafka-topic.yaml -n my-kafka-project
     - kafka 테스트 방법
-       .oc run kafka-producer -ti --image=strimzi/kafka:0.18.0-kafka-2.5.0  --rm=true  --restart=Never -- bin/kafka-console-producer.sh  --broker-list my-cluster-kafka-  bootstrap.my-kafka-project:9092  --topic my-topic
-       .(다른 terminal) oc run kafka-consumer -ti --image=strimzi/kafka:0.18.0-kafka-2.5.0  --rm=true  --restart=Never -- bin/kafka-console-consumer.sh  --bootstrap-server my-cluster-kafka-bootstrap.my-kafka-project:9092  --topic my-topic --from-beginning
+      - oc run kafka-producer -ti --image=strimzi/kafka:0.18.0-kafka-2.5.0  --rm=true  --restart=Never -- bin/kafka-console-producer.sh  --broker-list my-cluster-kafka-  bootstrap.my-kafka-project:9092  --topic my-topic
+      - (다른 terminal) oc run kafka-consumer -ti --image=strimzi/kafka:0.18.0-kafka-2.5.0  --rm=true  --restart=Never -- bin/kafka-console-consumer.sh  --bootstrap-server my-cluster-kafka-bootstrap.my-kafka-project:9092  --topic my-topic --from-beginning
                        
  4. logstash 설치
     - $longtail-elk로 이동
@@ -68,10 +56,10 @@
 
 7. 테스트 방법
     - longtail-producer용 route url에서 임의의 값을 입력
-      .topic: order, dispatch, delivery, charge
-      .(예) http://producer-route-longtail-producer.apps-crc.testing/delivery?user_id=1111&delivery_item=item2
+      - topic: order, dispatch, delivery, charge
+      - 예) http://producer-route-longtail-producer.apps-crc.testing/delivery?user_id=1111&delivery_item=item2
     - kibana > dev tools > console에서 query
-      .(예) GET /delivery/_search
+      - (예) GET /delivery/_search
             {
               "query": {
                 "match_all": {}
