@@ -22,11 +22,11 @@
 
  
  2. kafka producer 설치
-   - $longtail-producer로 이동
-   - namespace 생성: kubectl create ns longtail-producer
-   - openshift용 image 빌드: oc new-app . -n longtail-producer
+    - $longtail-producer로 이동
+    - namespace 생성: kubectl create ns longtail-producer
+    - openshift용 image 빌드: oc new-app . -n longtail-producer
      .(git연동시) oc new-app <git주소> -n longtail-producer
-   - web console에서 longtail-producer용 route 생성
+    - web console에서 longtail-producer용 route 생성
    
  3. strimzi(kafka) 설치
     - $longtail-kafka로 이동
